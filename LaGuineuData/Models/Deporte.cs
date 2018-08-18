@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace LaGuineuData
+namespace LaGuineuData.Models
 {
     public partial class Deporte
     {

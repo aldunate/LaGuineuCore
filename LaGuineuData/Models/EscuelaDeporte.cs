@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace LaGuineuData
+namespace LaGuineuData.Models
 {
     public partial class EscuelaDeporte
     {
         public int Id { get; set; }
-        public string IdDeporte { get; set; }
-        public string IdMonitor { get; set; }
+        public int? IdDeporte { get; set; }
+        public int? IdEscuela { get; set; }
     }
 }

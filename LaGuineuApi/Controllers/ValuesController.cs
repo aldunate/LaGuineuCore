@@ -2,43 +2,53 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using LaGuineuData.Models;
 using Microsoft.AspNetCore.Mvc;
 
-namespace LaGuineuApi.Controllers
+namespace LaGuineuApiCore.Controllers
 {
     [Route("api/[controller]")]
-    public class ValuesController : Controller
+    public class EscuelaPerfilController : Controller
     {
-        // GET api/values
+        public IClaseService claseService = new ClaseService();
+        public ITokenService tokenService = new TokenService();
+
+        // GET: Monitor
+        public Object Get(int id)
+        {
+            return claseService.GetClase(id);
+        }
+
+        // GET: Monitor
+        public Boolean Delete(int idClase)
+        {
+            return claseService.DeleteClase(idClase);
+        }
+
         [HttpGet]
-        public IEnumerable<string> Get()
+        public Object GetClases(string operacion, string fecha)
         {
-            return new string[] { "value1", "value2" };
+            Token token = (Token)Request.Properties["token"];
+            if (operacion == "Todas")
+            {
+                return claseService.GetClaseEscuela(token.IdEscuela);
+
+            }
+            if (operacion == "Fecha")
+            {
+                return claseService.GetClaseEscuelaFecha(token.IdEscuela, fecha);
+
+            }
+            return null;
+
         }
 
-        // GET api/values/5
-        [HttpGet("{id}")]
-        public string Get(int id)
+        public int PostClase(ClaseModel clase)
         {
-            return "value";
+            Token token = (Token)Request.Properties["token"];
+            clase.Clase.IdEscuela = token.IdEscuela;
+            return claseService.PostClase(clase).Id;
         }
 
-        // POST api/values
-        [HttpPost]
-        public void Post([FromBody]string value)
-        {
-        }
-
-        // PUT api/values/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody]string value)
-        {
-        }
-
-        // DELETE api/values/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
-        }
     }
 }

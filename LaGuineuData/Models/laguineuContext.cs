@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
-namespace LaGuineuData
+namespace LaGuineuData.Models
 {
     public partial class laguineuContext : DbContext
     {
@@ -282,9 +282,9 @@ namespace LaGuineuData
 
                 entity.Property(e => e.Id).HasColumnType("int(11)");
 
-                entity.Property(e => e.IdDeporte).HasColumnType("varchar(45)");
+                entity.Property(e => e.IdDeporte).HasColumnType("int(11)");
 
-                entity.Property(e => e.IdMonitor).HasColumnType("varchar(45)");
+                entity.Property(e => e.IdMonitor).HasColumnType("int(11)");
             });
 
             modelBuilder.Entity<EscuelaDisponible>(entity =>
