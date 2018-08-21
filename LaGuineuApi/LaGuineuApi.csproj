@@ -15,6 +15,7 @@
   <ItemGroup>
     <ProjectReference Include="..\LaGuineuData\LaGuineuData.csproj" />
     <ProjectReference Include="..\LaGuineuService\LaGuineuService.csproj" />
+    <ProjectReference Include="..\LaGuineuUtil\LaGuineuUtil.csproj" />
   </ItemGroup>
 
 </Project>

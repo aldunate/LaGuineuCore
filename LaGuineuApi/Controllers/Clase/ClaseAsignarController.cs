@@ -1,13 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using LaGuineuData;
 using LaGuineuData.Models;
+using LaGuineuService.Services;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LaGuineuApiCore.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/[controller]"), EnableCors("MyPolicy")]
+    [Authorize]
     public class ClaseAsignarController : Controller
     {
 
@@ -17,7 +18,8 @@ namespace LaGuineuApiCore.Controllers
         
         public int PostClase(ClaseModel clase)
         {
-            Token token = (Token)Request.Properties["token"];
+            var body = Request.Body;
+            Token token = new Token();
             return claseService.PostAsignada(clase);
         }
 

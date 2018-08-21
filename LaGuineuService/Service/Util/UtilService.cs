@@ -1,5 +1,6 @@
 ﻿using LaGuineuData.Models;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 
 namespace LaGuineuService.Services
@@ -16,7 +17,8 @@ namespace LaGuineuService.Services
 
         public List<Titulo> GetTitulos()
         {
-            return db.Titulo.ToList();
+            return new List<Titulo>(); 
+            // db.Titulo.ToList();
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using LaGuineuData;
+using LaGuineuData.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -46,7 +47,7 @@ namespace LaGuineuService.Services
                     // db.ClubCliente.Add(new ClubCliente { IdCliente = ee.Id, IdClub = club.Club.Id });
                 });
                 db.SaveChanges();
-                Club auxC = db.Club.Find(club.Club.Id);
+                Club auxC = db.Club.Find(club.Club.IdClub);
                 auxC.Nombre = club.Club.Nombre;
                 // auxC.IdNivel = club.Club.IdNivel;
                 db.SaveChanges();

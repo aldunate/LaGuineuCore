@@ -1,13 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
+using LaGuineuApi.Util.lib;
 using LaGuineuData.Models;
+using LaGuineuService.Services;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json.Linq;
 
 namespace LaGuineuApiCore.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/[controller]"), EnableCors("MyPolicy")]
+    [Authorize]
     public class EscuelaPerfilController : Controller
     {
         public IEscuelaService escuelaService = new EscuelaService();
@@ -17,14 +24,18 @@ namespace LaGuineuApiCore.Controllers
             return FileUtil.Download("EscuelaPerfil/" + strFileUrl, "Imagen");
         }
         [HttpPost]
-        public async Task<HttpResponseMessage> PostAsync()
+        public HttpResponseMessage Post()
         {
-            HttpResponseMessage json = await FileUtil.Upload(Request, HttpContext.Current, "~/App_Data/Imagenes/EscuelaPerfil");
-            JObject jObject = JObject.Parse(json.Content.ReadAsStringAsync().Result);
+            var httpContextCurrent = HttpContext; //HttpContext.Current;
+            // HttpResponseMessage json = FileUtil.Upload(Request, httpContextCurrent, "~/App_Data/Imagenes/EscuelaPerfil");
+            /*JObject jObject = JObject.Parse(json.Content.ReadAsStringAsync().Result);
             var fileName = jObject.GetValue("fileName").ToString();
-            Token token = (Token)Request.Properties["token"];
+
+            var body = Request.Body;
+            Token token = new Token();
             escuelaService.GuardarPerfil(token.IdEscuela, fileName);
-            return json;
+            return json;*/
+            return null;
         }
     }
 }

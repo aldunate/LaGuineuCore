@@ -1,5 +1,6 @@
 ﻿
 using LaGuineuData;
+using LaGuineuData.Models;
 using System.Collections.Generic;
 
 namespace LaGuineuService.Services

@@ -1,8 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using LaGuineuData;
 using LaGuineuData.Models;
+using LaGuineuService.Services;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 public class PostUsuario
 {
@@ -11,7 +12,8 @@ public class PostUsuario
 }
 namespace LaGuineuApiCore.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/[controller]"), EnableCors("MyPolicy")]
+    [Authorize]
     public class UsuarioController : Controller
     {
         // Curso
@@ -20,7 +22,8 @@ namespace LaGuineuApiCore.Controllers
 
         public List<UsuarioModel> Get()
         {
-            Token token = (Token) Request.Properties["token"];
+            var body = Request.Body;
+            Token token = new Token();
             return usuarioService.GetUsuariosEscuela(token.IdEscuela);
         }
 
@@ -29,10 +32,11 @@ namespace LaGuineuApiCore.Controllers
             return usuarioService.GetUsuario(id);
         }
 
-        public IHttpActionResult Post(PostUsuario pu)
+        public ObjectResult Post(PostUsuario pu)
         {
             Usuario usuario = pu.Usuario;
-            Token token = (Token)Request.Properties["token"];
+            var body = Request.Body;
+            Token token = new Token();
             usuario.IdEscuela = token.IdEscuela;
             return Ok(usuarioService.EditarUsuario(usuario,pu.Operacion));
         }

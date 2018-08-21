@@ -1,12 +1,16 @@
 ﻿
 using LaGuineuData;
 using LaGuineuData.Models;
+using LaGuineuService.Services;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using System;
 
 namespace LaGuineuApiCore.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/[controller]"), EnableCors("MyPolicy")]
+    [Authorize]
     public class ClaseController : Controller
     {
 
@@ -27,7 +31,8 @@ namespace LaGuineuApiCore.Controllers
 
         public Object GetClases(string operacion,string fecha)
         {
-            Token token = (Token) Request.Properties["token"];
+            var body = Request.Body;
+            Token token = new Token();
             if(operacion == "Todas")
             {
                 return claseService.GetClaseEscuela(token.IdEscuela);
@@ -44,7 +49,8 @@ namespace LaGuineuApiCore.Controllers
 
         public int PostClase(ClaseModel clase)
         {
-            Token token = (Token)Request.Properties["token"];
+            var body = Request.Body;
+            Token token = new Token();
             clase.Clase.IdEscuela = token.IdEscuela;
             return claseService.PostClase(clase).Id;
         }

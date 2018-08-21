@@ -1,17 +1,17 @@
-﻿using System.Collections.Generic;
-using System.Web.Http;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using LaGuineuData;
+using LaGuineuData.Models;
 using LaGuineuService.Services;
-using System.Web.Http.Cors;
-using System;
-using System.Net.Http;
-using System.Net.Http.Headers;
+using Microsoft.AspNetCore.Cors;
+using Microsoft.AspNetCore.Mvc;
 
-
-namespace LaGuineuApi.Controllers
+namespace LaGuineuApiCore.Controllers
 {
-    [EnableCors("*", "*", "*")]
-    public class RespuestaController : ApiController
+    [Route("api/[controller]"), EnableCors("MyPolicy")]
+    public class RespuestaController : Controller
     {
        
         // GET: Monitor

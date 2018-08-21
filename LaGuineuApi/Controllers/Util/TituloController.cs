@@ -1,10 +1,13 @@
 ﻿using System.Collections.Generic;
 using LaGuineuData.Models;
+using LaGuineuService.Services;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LaGuineuApi.Controllers
 {
-    [Route("api/[controller]")]
+
+    [Route("api/[controller]"), EnableCors("MyPolicy")]
     public class TituloController : Controller
     {
 

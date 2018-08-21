@@ -1,8 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using LaGuineuData.Models;
+using LaGuineuService.Services;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 
 public class PlayerRequest
@@ -15,7 +14,8 @@ public class PlayerRequest
 
 namespace LaGuineuApiCore.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/[controller]"), EnableCors("MyPolicy")]
+    [Authorize]
     public class DeporteController : Controller
     {
 

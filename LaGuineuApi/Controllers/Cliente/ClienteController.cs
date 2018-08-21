@@ -2,12 +2,17 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using LaGuineuData;
 using LaGuineuData.Models;
+using LaGuineuService.Services;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LaGuineuApiCore.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/[controller]"), EnableCors("MyPolicy")]
+    [Authorize]
     public class ClienteController : Controller
     {
 
@@ -22,13 +27,15 @@ namespace LaGuineuApiCore.Controllers
 
         public Object GetClientesEscuela()
         {
-            Token token = (Token)Request.Properties["token"];
+            var body = Request.Body;
+            Token token = new Token();
             return clienteService.GetClientesEscuela(token.IdEscuela);
         }
 
         public int Post(ClienteModel cliente)
         {
-            Token token = (Token)Request.Properties["token"];
+            var body = Request.Body;
+            Token token = new Token();
             cliente.Cliente.IdEscuela = token.IdEscuela;
             cliente.Usuario.IdEscuela = token.IdEscuela;
             return clienteService.PostCliente(cliente);

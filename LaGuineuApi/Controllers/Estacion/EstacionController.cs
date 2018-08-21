@@ -1,13 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using LaGuineuData.Models;
+using LaGuineuService.Services;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LaGuineuApiCore.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/[controller]"), EnableCors("MyPolicy")]
+    [Authorize]
     public class EstacionController : Controller
     {
         // Curso
@@ -19,9 +24,11 @@ namespace LaGuineuApiCore.Controllers
         }
 
         // No se trabaja con idEscuela
+        [EnableCors("MyPolicy")]
         public List<EscuelaEstacion> GetEstacionEscuela(int cualquiera)
         {
-            Token token = (Token)Request.Properties["token"];
+            var body = Request.Body;
+            Token token = new Token();
             return estacionService.GetEstacionEscuela(token.IdEscuela);
         }
 
@@ -59,7 +66,8 @@ namespace LaGuineuApiCore.Controllers
                 // client.DefaultRequestHeaders.TryAddWithoutValidation("origin", "http://api.openweathermap.org");
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
                 HttpResponseMessage response = await client.GetAsync("http://api.openweathermap.org/data/2.5/forecast?lat=" + lat+"&lon="+lon+"&APPID="+ apikey);
-                return await response.Content.ReadAsAsync<Object>();
+                var x = await response.Content.ReadAsByteArrayAsync();
+                return x;
             }
             catch (Exception e)
             {

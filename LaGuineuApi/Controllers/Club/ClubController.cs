@@ -1,13 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
+using LaGuineuData;
 using LaGuineuData.Models;
+using LaGuineuService.Services;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LaGuineuApiCore.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/[controller]"), EnableCors("MyPolicy")]
+    [Authorize]
     public class ClubController : Controller
     {
 
@@ -17,8 +21,10 @@ namespace LaGuineuApiCore.Controllers
         // GET: Clubes
         public List<Club> GetClubesEscuela()
         {
-            Token token = (Token)Request.Properties["token"];
-            return clubService.GetClubesEscuela(token.IdEscuela);
+            var body = Request.Body;
+            Token token = new Token();
+            // return clubService.GetClubesEscuela(token.IdEscuela);
+            return null;
         }
 
         public Object GetClub(int id)
@@ -28,8 +34,9 @@ namespace LaGuineuApiCore.Controllers
 
         public int Post(ClubModel club) // List<MonitorTitulo> titulos
         {
-            Token token = (Token)Request.Properties["token"];
-            club.Club.IdEscuela = token.IdEscuela;
+            var body = Request.Body;
+            Token token = new Token();
+            // club.Club.IdEscuela = token.IdEscuela;
             return clubService.EditarClub(club);
         }
 

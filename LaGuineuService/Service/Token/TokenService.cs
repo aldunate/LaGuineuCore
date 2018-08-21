@@ -41,13 +41,13 @@ namespace LaGuineuService.Services
              var tokenString = encoder.Encode(payload, secret);*/
             Token token = new Token();
             //token.Nombre = tokenString;
-            //token.IdEscuela = usuario.IdEscuela;
+            token.IdEscuela = 1;//usuario.IdEscuela;
             token.IdUsuario = usuario.Id;
             //token.IdMonitor = usuario.IdMonitor;
             token.FechaCrea = today;
             token.Id = usuario.Id;
             db.Token.Add(token);
-            db.SaveChanges();
+            // db.SaveChanges();
             return token;
         }
 

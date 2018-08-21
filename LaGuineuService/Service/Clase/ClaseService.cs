@@ -1,7 +1,5 @@
-﻿
-
-
-using LaGuineuData;
+﻿using LaGuineuData;
+using LaGuineuData.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
