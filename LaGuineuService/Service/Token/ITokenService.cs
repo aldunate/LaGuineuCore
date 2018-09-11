@@ -7,6 +7,6 @@ namespace LaGuineuService.Services
     public interface ITokenService
     {
         Token CreateToken(Usuario usuario, string operacion);
-        Object DecodingToken(string token);
+        Token DecodingToken(string token);
     }
 }
