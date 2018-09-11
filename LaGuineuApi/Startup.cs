@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Text;
+using LaGuineuApi.Middleware;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 
 namespace LaGuineuApi
@@ -26,48 +22,12 @@ namespace LaGuineuApi
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
-            services.AddCors(o => o.AddPolicy("MyPolicy", builder =>
+            services.AddCors(o => o.AddPolicy("MyPolicy", contructor =>
             {
-                builder.AllowAnyOrigin()
+                contructor.AllowAnyOrigin()
                        .AllowAnyMethod()
                        .AllowAnyHeader();
             }));
-            /*services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-            .AddJwtBearer(options =>
-            {
-                options.Authority = "https://dev-929043.oktapreview.com/oauth2/laguineu"; // "{yourAuthorizationServerAddress}";
-                options.Audience = "api://laguineu";
-            });*/
-
-            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-            .AddJwtBearer(options =>
-            {
-                options.TokenValidationParameters = new TokenValidationParameters
-                {
-                    // Clock skew compensates for server time drift.
-                    // We recommend 5 minutes or less:
-                    ClockSkew = TimeSpan.FromMinutes(5),
-                    // Specify the key used to sign the token:
-                    // IssuerSigningKey = signingKey,
-                    RequireSignedTokens = true,
-                    // Ensure the token hasn't expired:
-                    RequireExpirationTime = true,
-                    ValidateLifetime = true,
-                    // Ensure the token audience matches our audience value (default true):
-                    ValidateAudience = true,
-                    ValidAudience = "api://laguineu",
-                    // Ensure the token was issued by a trusted authorization server (default true):
-                    ValidateIssuer = true,
-                    ValidIssuer = "https://dev-929043.oktapreview.com/oauth2/laguineu"
-                };
-            });
-            /*
-            The most common options to set in TokenValidationParameters are issuer, audience, and clock skew.
-            You’ll also need to provide the key(s) your tokens will be signed with, which will look different 
-            depending on whether you’re using a symmetric or asymmetric key.
-
-        */
-
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -75,10 +35,36 @@ namespace LaGuineuApi
         {
             if (env.IsDevelopment())
             {
+                // When the app runs in the Development environment:
+                //   Use the Developer Exception Page to report app runtime errors.
+                //   Use the Database Error Page to report database runtime errors.
                 app.UseDeveloperExceptionPage();
+                app.UseDatabaseErrorPage();
             }
-            app.UseCors("MyCors");
-            app.UseAuthentication();
+            else
+            {
+                // When the app doesn't run in the Development environment:
+                //   Enable the Exception Handler Middleware to catch exceptions
+                //     thrown in the following middlewares.
+                //   Use the HTTP Strict Transport Security Protocol (HSTS)
+                //     Middleware.
+                app.UseExceptionHandler("/Error");
+                // app.UseHsts();
+            }
+
+            // Use HTTPS Redirection Middleware to redirect HTTP requests to HTTPS.
+            // app.UseHttpsRedirection();
+
+            app.UseTokenMiddleware();
+
+            // Return static files and end the pipeline.
+            app.UseStaticFiles();
+
+            // Use Cookie Policy Middleware to conform to EU General Data 
+            //   Protection Regulation (GDPR) regulations.
+            app.UseCookiePolicy();
+
+            // Add MVC to the request pipeline.
             app.UseMvc();
         }
     }

@@ -543,7 +543,7 @@ namespace LaGuineuData.Models
                 entity.Property(e => e.Nombre).HasColumnType("varchar(45)");
             });
 
-            modelBuilder.Entity<Token>(entity =>
+            modelBuilder.Entity<Token>((Action<Microsoft.EntityFrameworkCore.Metadata.Builders.EntityTypeBuilder<Token>>)((Microsoft.EntityFrameworkCore.Metadata.Builders.EntityTypeBuilder<Token> entity) =>
             {
                 entity.ToTable("token");
 
@@ -553,12 +553,12 @@ namespace LaGuineuData.Models
 
                 entity.Property(e => e.IdEscuela).HasColumnType("varchar(45)");
 
-                entity.Property(e => e.IdMonitor).HasColumnType("varchar(45)");
+                entity.Property((System.Linq.Expressions.Expression<Func<Token, int>>)(e => (int)e.IdMonitor)).HasColumnType("int(11)");
 
                 entity.Property(e => e.IdUsuario).HasColumnType("int(11)");
 
-                entity.Property(e => e.Nombre).HasColumnType("varchar(45)");
-            });
+                entity.Property((System.Linq.Expressions.Expression<Func<Token, int>>)(e => (int)e.IdMonitor)).HasColumnType("int(11)");
+            }));
 
             modelBuilder.Entity<Usuario>(entity =>
             {

@@ -5,11 +5,11 @@ VisualStudioVersion = 15.0.27130.2020
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LaGuineuData", "LaGuineuData\LaGuineuData.csproj", "{62AE3B9F-91EE-49B7-A01D-7FE70A33DC92}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LaGuineuApi", "LaGuineuApi\LaGuineuApi.csproj", "{F0579AD5-3CA2-4CBA-9AE6-23E70B62E510}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LaGuineuApi", "LaGuineuApi\LaGuineuApi.csproj", "{F0579AD5-3CA2-4CBA-9AE6-23E70B62E510}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LaGuineuService", "LaGuineuService\LaGuineuService.csproj", "{E75588EA-6C1B-497C-99FB-7452C382A960}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LaGuineuService", "LaGuineuService\LaGuineuService.csproj", "{E75588EA-6C1B-497C-99FB-7452C382A960}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LaGuineuUtil", "LaGuineuUtil\LaGuineuUtil.csproj", "{7A5169B0-64AD-48AD-BFDB-EF2B76A4BB31}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LaGuineuUtil", "LaGuineuUtil\LaGuineuUtil.csproj", "{7A5169B0-64AD-48AD-BFDB-EF2B76A4BB31}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -9,36 +9,34 @@ namespace LaGuineuService.Services
 {
     public class UsuarioService : IUsuarioService
     {
-        private laguineuContext db = new laguineuContext();
-        private ITokenService tokenService = new TokenService();
+        private readonly laguineuContext _db = new laguineuContext();
+        private readonly ITokenService _tokenService = new TokenService();
 
         public Usuario GetUsuario(int id)
         {
-            return db.Usuario.Where(x => x.Id == id).FirstOrDefault();
+            return _db.Usuario.FirstOrDefault(x => x.Id == id);
         }
         public Usuario GetUsuario(string usuario)
         {
-            return db.Usuario.Where(x => x.Email == usuario).FirstOrDefault();
+            return _db.Usuario.FirstOrDefault(x => x.Email == usuario);
         }
 
         public List<UsuarioModel> GetUsuariosEscuela(int idEscuela)
         {
-            List<Usuario> list =  db.Usuario.Where(x=> x.IdEscuela == idEscuela).ToList();
+            List<Usuario> list =  _db.Usuario.Where(x=> x.IdEscuela == idEscuela).ToList();
             List<UsuarioModel> response = new List<UsuarioModel>();
             
             list.ForEach(u =>
             {
-                UsuarioModel o = new UsuarioModel();
-                o.Id = u.Id;
-                o.Email = u.Email;
+                UsuarioModel o = new UsuarioModel {Id = u.Id, Email = u.Email};
                 //o.EsGestor = u.EsGestor;
                 //o.FechaDesactivado = u.FechaDesactivado;
-                Monitor m = db.Monitor.Where(x => x.IdUsuario == u.Id).FirstOrDefault();
+                Monitor m = _db.Monitor.FirstOrDefault(x => x.IdUsuario == u.Id);
                 if (m != null) {
                     o.Nombre = m.Nombre + " "+ m.Apellidos;
                     o.IdMonitor = m.Id;
                 }
-                Cliente c = db.Cliente.Where(x => x.IdUsuario == u.Id).FirstOrDefault();
+                Cliente c = _db.Cliente.FirstOrDefault(x => x.IdUsuario == u.Id);
                 if (c != null)
                 {
                     //o.Nombre = c.Nombre + " " + c.Apellidos;
@@ -53,9 +51,9 @@ namespace LaGuineuService.Services
         {
             if(operacion == "Editar")
             {
-                Usuario found = db.Usuario.Where(x => x.Id != usuario.Id && x.Email != usuario.Email).FirstOrDefault();
+                Usuario found = _db.Usuario.FirstOrDefault(x => x.Id != usuario.Id && x.Email != usuario.Email);
                 if (found == null) return "El email ya esta registrado";
-                found = db.Usuario.Where(x => x.Id == usuario.Id).FirstOrDefault();
+                found = _db.Usuario.FirstOrDefault(x => x.Id == usuario.Id);
                 if (found == null) return "No se encuentra el usuario";
                 found.Email = usuario.Email;
                 if (usuario.Password != null)
@@ -63,15 +61,15 @@ namespace LaGuineuService.Services
                     found.Password = usuario.Password;
                 }
                 //found.EsGestor = usuario.EsGestor;
-                db.SaveChanges();
+                _db.SaveChanges();
                 return "Cambios guardados";
             }
             if (operacion == "Crear")
             {
-                Usuario found = db.Usuario.Where(x => x.Email != usuario.Email).FirstOrDefault();
+                Usuario found = _db.Usuario.FirstOrDefault(x => x.Email != usuario.Email);
                 if (found == null) return "El email ya esta registrado";
-                db.Usuario.Add(usuario);
-                db.SaveChanges();
+                _db.Usuario.Add(usuario);
+                _db.SaveChanges();
                 return "Cambios guardados";
             }
             return "null";
@@ -79,25 +77,25 @@ namespace LaGuineuService.Services
 
         public Boolean ExisteUsuarioEmail(string email)
         {
-            var u = db.Usuario.Where(x => x.Email == email).ToArray();
+            var u = _db.Usuario.Where(x => x.Email == email).ToArray();
             if (u.Length == 0) return false;
             return true;
         }
         public Boolean ExisteUsuarioEmail(string email, int idUsuario)
         {
-            var u = db.Usuario.Where(x => x.Email == email && x.Id != idUsuario ).ToArray();
+            var u = _db.Usuario.Where(x => x.Email == email && x.Id != idUsuario ).ToArray();
             if (u.Length == 0) return false;
             return true;
         }
 
         public Token LoginUsuario(Usuario usuario)
         {
-            usuario = db.Usuario.Where(x => x.Email == usuario.Email && x.Password == usuario.Password).FirstOrDefault();
+            usuario = _db.Usuario.FirstOrDefault(x => x.Email == usuario.Email && x.Password == usuario.Password);
             if (usuario != null)
             {
                 var operacion = "Gestion";
                 // if (usuario.IdMonitor != null) operacion = "Monitor";
-                return tokenService.CreateToken(usuario, operacion);
+                return _tokenService.CreateToken(usuario, operacion);
             }
             return null;
         }

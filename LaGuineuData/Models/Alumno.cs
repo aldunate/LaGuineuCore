@@ -1,14 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+// ReSharper disable All
 
 namespace LaGuineuData.Models
 {
     public partial class Alumno
     {
-        public Alumno()
-        {
-            ClaseGrupoAlumno = new HashSet<ClaseGrupoAlumno>();
-        }
+        public Alumno() => ClaseGrupoAlumno = new HashSet<ClaseGrupoAlumno>();
 
         public int Id { get; set; }
         public string Nombre { get; set; }
